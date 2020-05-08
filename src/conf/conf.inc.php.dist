@@ -3,14 +3,14 @@ class Conf {
     public static $db = array(
         'driver' => 'mysql',
         'host' => 'localhost',
-        'base' => 'belote',
-        'user' => 'belote',
-        'password' => 'belote'
+        'base' => 'pokerplanning',
+        'user' => 'pokerplanning',
+        'password' => 'pokerplanning'
     );
     
     
     const DEBUG = true;
-    const BASE_URL = 'http://localhost/belote';
+    const BASE_URL = 'http://localhost/pokerplanning';
     const MERCURE_URL = 'http://localhost:3000/.well-known/mercure';
     const MERCURE_JWT_KEY = 'myjwt';
     const MERCURE_COOKIE_DOMAIN = 'localhost';

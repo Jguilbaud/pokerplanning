@@ -17,9 +17,8 @@ class JwtCookie extends StaticAccessClass {
      */
     private function setOrUpdateMercureCookie(\stdClass $gameJwtCookie) {
         $oMercurePayload = new \Entities\MercureJwtPayload();
-        foreach ( $gameJwtCookie as $game ) {
-            $oMercurePayload->addSubscribe(\Conf::BASE_URL . '/game/' . $game->getHashGame());
-            $oMercurePayload->addSubscribe(\Conf::BASE_URL . '/game/' . $game->getHashGame() . '/' . $game->getPlayerPosition());
+        foreach ( $gameJwtCookie as $room ) {
+            $oMercurePayload->addSubscribe(\Conf::BASE_URL . '/room/' . $room->getHashGame());
         }
 
         $jwt = \Firebase\JWT\JWT::encode($oMercurePayload, \Conf::MERCURE_JWT_KEY, \MERCURE_JWT_ALGORITHM);
@@ -27,7 +26,7 @@ class JwtCookie extends StaticAccessClass {
     }
 
     public function setCookies(String $hashGame, String $playerPosition = 'guest') {
-        $oGamePayload = new \Entities\GameJwtPayload();
+        $oGamePayload = new \Entities\PokerPlanningJwtPayload();
         $oGamePayload->setHashGame($hashGame);
         $oGamePayload->setPlayerPosition(strtolower($playerPosition));
 
@@ -35,7 +34,7 @@ class JwtCookie extends StaticAccessClass {
         if (isset($_COOKIE[\BELOTE_GAME_COOKIE_BASENAME])) {
             $jwtPayload = \Services\JwtCookie::get()->decodeJwtCookie($_COOKIE[\BELOTE_GAME_COOKIE_BASENAME]);
             foreach ( $jwtPayload as &$game ) {
-                $toGame = new \Entities\GameJwtPayload();
+                $toGame = new \Entities\PokerPlanningJwtPayload();
                 $toGame->setHashGame($game->hashGame);
                 $toGame->setPlayerPosition(strtolower($game->playerPosition));
                 $game = $toGame;
@@ -48,19 +47,19 @@ class JwtCookie extends StaticAccessClass {
         $jwtPayload->$hashGame = $oGamePayload;
 
         $jwt = \Firebase\JWT\JWT::encode($jwtPayload, \Conf::MERCURE_JWT_KEY, \MERCURE_JWT_ALGORITHM);
-        setcookie(\BELOTE_GAME_COOKIE_BASENAME, $jwt, time() + (3600 * 24), '/');
+        setcookie(\COOKIE_NAME, $jwt, time() + (3600 * 24), '/');
 
         // On fait de même pour Mercure
         $this->setOrUpdateMercureCookie($jwtPayload);
     }
 
-    public function getBeloteGameCookie(String $hashGame): ?\Entities\GameJwtPayload {
+    public function getBeloteGameCookie(String $hashGame): ?\Entities\PokerPlanningJwtPayload {
         if (isset($_COOKIE[\BELOTE_GAME_COOKIE_BASENAME])) {
             $jwtPayload = \Services\JwtCookie::get()->decodeJwtCookie($_COOKIE[\BELOTE_GAME_COOKIE_BASENAME]);
 
             // On regarde si notre cookie connait notre partie
             if (isset($jwtPayload->$hashGame)) {
-                $oPayload = new \Entities\GameJwtPayload();
+                $oPayload = new \Entities\PokerPlanningJwtPayload();
                 $oPayload->fromStdClass($jwtPayload->$hashGame);
                 return $oPayload;
             }
