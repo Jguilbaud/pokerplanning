@@ -9,7 +9,7 @@ class Room extends AbstractEntity {
     const STEP_RESULT = 'result';
     protected int $id;
     protected String $hash;
-    protected String $libelle = '';
+    protected String $label = '';
     protected String $step = static::STEP_VOTE;
 
     /**
@@ -48,16 +48,16 @@ class Room extends AbstractEntity {
      *
      * @return string
      */
-    public function getLibelle(): String {
-        return $this->libelle;
+    public function getLabel(): String {
+        return $this->label;
     }
 
     /**
      *
-     * @param string $libelle
+     * @param string $label
      */
-    public function setLibelle(String $libelle): void {
-        $this->libelle = $libelle;
+    public function setLabel(String $label): void {
+        $this->label = $label;
     }
 
     /**

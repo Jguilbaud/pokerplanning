@@ -9,21 +9,11 @@
 			
 		}
 	},
-	"createpage": {
-		"http_method": "get",
-		"type": "page",
-		"regexp": "/create",
-		"controller": "Game",
-		"method": "create",
-		"params": {
-			
-		}
-	},
-	"creategame": {
+	"createroom": {
 		"http_method": "post",
 		"type": "page",
 		"regexp": "/create",
-		"controller": "Game",
+		"controller": "Room",
 		"method": "create",
 		"params": {
 			"pseudo": {
@@ -31,11 +21,11 @@
 			}
 		}
 	},
-	"joingamepage": {
+	"joinroompage": {
 		"http_method": "get",
 		"type": "page",
 		"regexp": "^/join/([a-z0-9]{10})$",
-		"controller": "Game",
+		"controller": "Room",
 		"method": "showJoinPage",
 		"params": {
 			"hash": {
@@ -44,31 +34,31 @@
 			}
 		}
 	},
-    "joingameapi": {
-        "http_method": "post",
-        "type": "api",
-        "regexp": "^/join/([a-z0-9]{10})$",
-        "controller": "Game",
-        "method": "join",
-        "params": {
-             "hash": {
-                "method": "uri",
-                "uri_position": 1
-            },
-            "pseudo": {
-                "method": "post"
-            },
-            "playerPosition": {
-                "method": "post"
-            }
-        }
-    },
-	"playgame": {
+	"joinroomapi": {
+		"http_method": "post",
+		"type": "api",
+		"regexp": "^/join/([a-z0-9]{10})$",
+		"controller": "Room",
+		"method": "join",
+		"params": {
+			"hash": {
+				"method": "uri",
+				"uri_position": 1
+			},
+			"pseudo": {
+				"method": "post"
+			},
+			"role": {
+				"method": "post"
+			}
+		}
+	},
+	"room": {
 		"http_method": "get",
 		"type": "page",
 		"regexp": "^/play/([a-z0-9]{10}$)",
-		"controller": "Game",
-		"method": "showPlayPage",
+		"controller": "Room",
+		"method": "showRoomPage",
 		"params": {
 			"hash": {
 				"method": "uri",
@@ -76,52 +66,49 @@
 			}
 		}
 	},
-    "game_cutdeck": {
-        "http_method": "post",
-        "type": "api",
-        "regexp": "^/play/([a-z0-9]{10})/cutdeck$",
-        "controller": "Game",
-        "method": "cutDeck",
-        "params": {
-             "hash": {
-                "method": "uri",
-                "uri_position": 1
-            },
-            "value": {
-                "method": "post"
-            }
-        }
-    },
-    "game_choosetrump": {
-        "http_method": "post",
-        "type": "api",
-        "regexp": "^/play/([a-z0-9]{10})/choosetrump$",
-        "controller": "Game",
-        "method": "chooseTrump",
-        "params": {
-             "hash": {
-                "method": "uri",
-                "uri_position": 1
-            },
-            "choice": {
-                "method": "post"
-            }
-        }
-    },
-    "game_playcard": {
-        "http_method": "post",
-        "type": "api",
-        "regexp": "^/play/([a-z0-9]{10})/playcard",
-        "controller": "Game",
-        "method": "playCard",
-        "params": {
-             "hash": {
-                "method": "uri",
-                "uri_position": 1
-            },
-            "card": {
-                "method": "post"
-            }
-        }
-    }
+	"room_definelibelle": {
+		"http_method": "post",
+		"type": "api",
+		"regexp": "^/play/([a-z0-9]{10})/label$",
+		"controller": "Room",
+		"method": "setLabel",
+		"params": {
+			"hash": {
+				"method": "uri",
+				"uri_position": 1
+			},
+			"label": {
+				"method": "post"
+			}
+		}
+	},
+	"room_reset": {
+		"http_method": "post",
+		"type": "api",
+		"regexp": "^/play/([a-z0-9]{10})/reset$",
+		"controller": "Room",
+		"method": "resetVoteAndLabel",
+		"params": {
+			"hash": {
+				"method": "uri",
+				"uri_position": 1
+			}
+		}
+	},
+	"room_vote": {
+		"http_method": "post",
+		"type": "api",
+		"regexp": "^/play/([a-z0-9]{10})/vote",
+		"controller": "Room",
+		"method": "vote",
+		"params": {
+			"hash": {
+				"method": "uri",
+				"uri_position": 1
+			},
+			"vote": {
+				"method": "post"
+			}
+		}
+	}
 }
